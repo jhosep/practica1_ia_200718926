@@ -99,7 +99,7 @@ def dj_dTJ():
 		
 		uno_m=1/m
 		i=0
-		while i<m
+		while i<m:
 			yval=vector_y[i]
 			
 		
