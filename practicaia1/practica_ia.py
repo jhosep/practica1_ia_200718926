@@ -53,7 +53,7 @@ def imprime_teta():
 	global tetas
 	teta=0
 	tam=len(tetas)
-	while teta<tetas:
+	while teta<tam:
 		print "Teta",teta,"=",tetas[teta]
 		teta=teta+1
 
@@ -144,6 +144,7 @@ def dj_dTJ(teta,xi):
 			pre_val=val_h-yval
 			pre_val=pre_val*val_xi
 			suma=suma+pre_val
+			i=i+1
 		suma=suma*uno_m
 		return suma
 def gradiente():
