@@ -46,8 +46,16 @@ def main():
 	leer_x (archivo_x)
 	leer_y (archivo_y)
 	init_tetas()
-	print matris_x
-	print vector_y
+	gradiente()
+	imprime_teta()
+	
+def imprime_teta():
+	global tetas
+	teta=0
+	tam=len(tetas)
+	while teta<tetas:
+		print "Teta",teta,"=",tetas[teta]
+		teta=teta+1
 
 def leer_x(archivo):
 	 global m
@@ -56,16 +64,20 @@ def leer_x(archivo):
 	 archi=open(archivo,'r')
 	 linea=archi.readline()
 	 while linea!="": 
+	 
 		 vector=linea.split(',',2)
+		
 		 n=len(vector)
 		 m=m+1
 		 i=0
 		 #convertir vector de texto a float
 		 vectoraux=[]
+		 vectoraux.append(1.00)
 		 while i<n:
 			vectoraux.append(float(vector[i]))
 			i=i+1
 		 matris_x.append(vectoraux)
+		 n=len(vector)+1
 		 linea=archi.readline()
 	 print "m=",m," n=",n
 	 
@@ -90,18 +102,66 @@ def leer_y(archivo):
 		 vector_y.append(num)
 		 linea=archi.readline()
 	 print "m=",m," n=",n
- 
-def dj_dTJ():
+	 
+def h(i):
+	global matris_x
+	global tetas
+	vector_x=matris_x[i]
+	tamanio=len(vector_x)
+	suma=0
+	j=0
+	val_teta=1
+	while j<tamanio:
+		val_teta=tetas[j]
+		presuma=vector_x[j]*val_teta
+		suma=suma+presuma
+		j=j+1
+	return suma
+	
+def x(i):
+	global matris_x
+	vector_x=matris_x[i]
+	tamanio=len(vector_x)
+	suma=0
+	j=0
+
+	while j<tamanio:
+		suma=suma+vector_x[j]
+		j=j+1
+	return suma
+def dj_dTJ(teta,xi):
 		global matris_x
 		global vector_y
 		global m
 		fila=0
-		
 		uno_m=1/m
 		i=0
+		suma=0
 		while i<m:
 			yval=vector_y[i]
-			
-		
+			val_h=h(i)
+			val_xi=xi
+			pre_val=val_h-yval
+			pre_val=pre_val*val_xi
+			suma=suma+pre_val
+		suma=suma*uno_m
+		return suma
+def gradiente():
+	global alfa
+	global itera
+	global tole
+	global tetas
+	global n
+	global alfa 
+	teta=0
+	cont_teta=0
+	cont=0
+	while cont<itera:
+		while cont_teta<n:
+			teta=tetas[cont_teta]
+			teta=teta-alfa *dj_dTJ(cont_teta,x(cont_teta))
+			tetas[cont_teta]=teta
+			cont_teta=cont_teta+1
+		cont=cont+1
 if __name__ == '__main__':
     main()
